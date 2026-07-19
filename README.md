@@ -1,16 +1,37 @@
-# React + Vite
+# Student Portfolio — React + Vite + React Router
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Built for **Advanced Web Development Frameworks (ITUE301)**.
 
-Currently, two official plugins are available:
+## Practical 1 — Component Architecture
+Reusable, prop-driven components: Header, About, Skills, Projects, Footer, NavBar.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Practical 2 — Routing & State Management
+- Added **React Router v6** with client-side routes: `/` (Home), `/projects`, `/contact`, plus a catch-all `*` 404 route.
+- `NavBar` uses `<Link>` (not `<a>`) so navigating between routes never triggers a full page reload.
+- Two meaningful `useState` variables:
+  - `message` in `Contact.jsx` — a controlled textarea with a live character count.
+  - `showHelp` in `Contact.jsx` — toggles a help tooltip's visibility.
+- Supplementary tasks completed:
+  - Custom 404 page (`NotFound.jsx`) for undefined paths.
+  - Dark/light theme toggle (`theme` state in `App.jsx`) applying a `theme-light` class to the root element.
 
-## React Compiler
+## Component / Route Tree
+```
+App.jsx (wrapped in <BrowserRouter> from main.jsx)
+ ├── NavBar.jsx           (Link-based nav, highlights active route, theme toggle)
+ ├── Route "/"        → pages/Home.jsx      → Header, About, Skills
+ ├── Route "/projects"→ pages/ProjectsPage.jsx → Projects
+ ├── Route "/contact" → pages/Contact.jsx    (controlled input, useState)
+ ├── Route "*"        → pages/NotFound.jsx
+ └── Footer.jsx
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run it
+```bash
+npm install
+npm run dev
+```
+Then open the printed local URL (usually http://localhost:5173).
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Customize
+Edit the data arrays inside `src/pages/Home.jsx` and `src/pages/ProjectsPage.jsx`, and the props passed to `Header`/`Footer` in those files and `App.jsx`.
