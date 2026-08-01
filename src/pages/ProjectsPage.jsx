@@ -1,4 +1,12 @@
+import { useState, useEffect } from 'react'
 import Projects from '../components/Projects.jsx'
+import Spinner from '../components/Spinner.jsx'
+import ErrorMessage from '../components/ErrorMessage.jsx'
+import RepoList from '../components/RepoList.jsx'
+import useReveal from '../hooks/useReveal.js'
+
+// GITHUB_USERNAME is the username used to fetch repos. Replace this with your actual GitHub username.
+const GITHUB_USERNAME = 'Aum3136'
 
 const projects = [
   {
@@ -28,7 +36,71 @@ const projects = [
 ]
 
 function ProjectsPage() {
-  return <Projects items={projects} />
+  const [repos, setRepos] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [search, setSearch] = useState('')
+  const [revealRef, visible] = useReveal()
+
+  const fetchRepos = () => {
+    setLoading(true)
+    setError(null)
+    fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`GitHub API returned status ${res.status}`)
+        }
+        return res.json()
+      })
+      .then((data) => {
+        setRepos(data)
+      })
+      .catch((err) => {
+        setError(err.message || 'Failed to fetch repositories')
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    fetchRepos()
+  }, [])
+
+  const filteredRepos = repos.filter((repo) =>
+    repo.name.toLowerCase().includes(search.toLowerCase())
+  )
+
+  return (
+    <>
+      <Projects items={projects} />
+
+      <section id="github-repos" ref={revealRef} className={visible ? 'is-visible' : ''}>
+        <div className="section-head">
+          <span className="mark">04</span>
+          <h2>Live from GitHub</h2>
+        </div>
+
+        <input
+          className="repo-search"
+          type="text"
+          placeholder="Search repositories by name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          disabled={loading || !!error}
+        />
+
+        {loading ? (
+          <Spinner />
+        ) : error ? (
+          <ErrorMessage message={error} onRetry={fetchRepos} />
+        ) : (
+          <RepoList data={filteredRepos} />
+        )}
+      </section>
+    </>
+  )
 }
 
 export default ProjectsPage
+

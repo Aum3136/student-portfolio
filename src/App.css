@@ -82,6 +82,7 @@ header{
 /* ---------- SCROLL REVEAL ---------- */
 section{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
 section.is-visible{opacity:1; transform:translateY(0);}
+#projects{opacity:1; transform:none;}
 @media (prefers-reduced-motion: reduce){
   section{opacity:1; transform:none; transition:none;}
 }
@@ -277,3 +278,38 @@ footer{padding:80px 0 60px; position:relative; border-top:1px solid var(--line);
   --paper-dim:#5A5140;
   --line:#D8CCAF;
 }
+
+/* ---------- SPINNER ---------- */
+.spinner-wrap{display:flex; align-items:center; gap:12px; padding:30px 0; color:var(--paper-dim);}
+.spinner{
+  width:20px; height:20px; border-radius:50%;
+  border:2px solid var(--line); border-top-color:var(--amber);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.spinner-label{font-family:var(--mono); font-size:13px;}
+
+/* ---------- ERROR MESSAGE ---------- */
+.error-box{
+  padding:20px; border:1px solid var(--line); border-left:2px solid #C9564B;
+  background:var(--bg-soft); border-radius:8px; margin:20px 0;
+}
+.error-box p{color:var(--paper-dim); margin-bottom:14px; font-size:14px;}
+
+/* ---------- REPO LIST ---------- */
+.repo-search{
+  width:100%; max-width:400px; margin:20px 0;
+  background:var(--bg-soft); border:1px solid var(--line); border-radius:8px;
+  padding:10px 14px; color:var(--paper); font-family:var(--sans); font-size:14px;
+}
+.repo-search:focus{outline:none; border-color:var(--amber);}
+.repo-list{display:flex; flex-direction:column; gap:1px; background:var(--line); border-radius:8px; overflow:hidden;}
+.repo-row{
+  background:var(--bg); padding:14px 18px; display:flex;
+  justify-content:space-between; align-items:center;
+  font-family:var(--mono); font-size:14px; color:var(--paper);
+  transition:background .2s ease;
+}
+.repo-row:hover{background:var(--bg-soft); color:var(--amber);}
+.repo-stars{color:var(--moss); font-size:13px;}
+.repo-empty{color:var(--paper-dim); font-size:14px; padding:16px 0;}
