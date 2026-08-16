@@ -4,6 +4,7 @@ const ROUTES = [
   { path: '/', label: 'home' },
   { path: '/projects', label: 'projects' },
   { path: '/contact', label: 'contact' },
+  { path: '/tasks', label: 'tasks' },
 ]
 
 function NavBar({ name, theme, onToggleTheme }) {
