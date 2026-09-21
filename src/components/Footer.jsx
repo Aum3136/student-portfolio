@@ -9,7 +9,7 @@ function Footer({ email }) {
             or you just want to talk shop over chai — my inbox is genuinely
             open. I reply to most things within a day or two.
           </p>
-          <p className="sign-off">— Aarav</p>
+          <p className="sign-off">— Aum</p>
         </div>
         <div className="foot-links">
           <a href={`mailto:${email}`}>email</a>
@@ -19,7 +19,7 @@ function Footer({ email }) {
         </div>
         <div className="foot-bottom">
           <span>© 2026, built by hand.</span>
-          <span>Ahmedabad, India</span>
+          <span>Vadodara, India</span>
         </div>
       </div>
     </footer>

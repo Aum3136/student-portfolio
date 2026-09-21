@@ -13,7 +13,7 @@ function About() {
         <div className="avatar">AM</div>
         <div className="about-text">
           <p>
-            I'm <strong>Aarav</strong>, a developer who spends most days
+            I'm <strong>Aum</strong>, a developer who spends most days
             somewhere between a terminal and a sketchbook. I care less about
             chasing every new framework and more about whether the thing I
             built actually holds up when someone leans on it.
