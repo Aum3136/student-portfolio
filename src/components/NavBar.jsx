@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom'
 
 const ROUTES = [
-  { path: '/', label: 'home' },
-  { path: '/projects', label: 'projects' },
-  { path: '/contact', label: 'contact' },
-  { path: '/tasks', label: 'tasks' },
+  { path: '/', label: 'Home' },
+  { path: '/projects', label: 'Projects' },
+  { path: '/contact', label: 'Contact' },
+  { path: '/tasks', label: 'Tasks' },
 ]
 
 function NavBar({ name, theme, onToggleTheme }) {
@@ -23,8 +23,11 @@ function NavBar({ name, theme, onToggleTheme }) {
             {route.label}
           </Link>
         ))}
+        <a href="/resume.pdf" download className="tab resume-tab" title="Download Resume">
+          Resume ↗
+        </a>
         <button className="tab theme-toggle" onClick={onToggleTheme}>
-          {theme === 'dark' ? 'light mode' : 'dark mode'}
+          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>
       </nav>
     </header>

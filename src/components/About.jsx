@@ -1,4 +1,5 @@
 import useReveal from '../hooks/useReveal.js'
+import profileImg from '../assets/profile.jpg'
 
 function About() {
   const [ref, visible] = useReveal()
@@ -10,8 +11,13 @@ function About() {
         <h2>About</h2>
       </div>
       <div className="about-grid">
-        <div className="avatar">AM</div>
+        <img className="avatar" src={profileImg} alt="Aum Pandya" />
         <div className="about-text">
+          <div className="now-badge">
+            <span className="now-dot"></span>
+            <span className="now-label">Currently Working On:</span>
+            <span className="now-text">Building full-stack web apps & exploring applied ML</span>
+          </div>
           <p>
             I'm <strong>Aum</strong>, a developer who spends most days
             somewhere between a terminal and a sketchbook. I care less about

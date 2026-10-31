@@ -45,7 +45,7 @@ function Projects({ items }) {
     <section id="projects">
       <div className="section-head">
         <span className="mark">03</span>
-        <h2>Selected work</h2>
+        <h2>Selected Work</h2>
       </div>
       <div className="projects">
         {items.map((p, i) => (
