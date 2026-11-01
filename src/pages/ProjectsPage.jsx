@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+
+import GithubActivity from '../components/GithubActivity'
 import Projects from '../components/Projects.jsx'
 import Spinner from '../components/Spinner.jsx'
 import ErrorMessage from '../components/ErrorMessage.jsx'
@@ -75,6 +77,8 @@ function ProjectsPage() {
     <>
       <Projects items={projects} />
 
+      <GithubActivity username={GITHUB_USERNAME} />
+
       <section id="github-repos" ref={revealRef} className={visible ? 'is-visible' : ''}>
         <div className="section-head">
           <span className="mark">04</span>
@@ -103,4 +107,3 @@ function ProjectsPage() {
 }
 
 export default ProjectsPage
-
