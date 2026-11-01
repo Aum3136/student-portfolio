@@ -1,15 +1,16 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import NavBar from './components/NavBar.jsx'
 import Footer from './components/Footer.jsx'
 import Home from './pages/Home.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
-import { lazy, Suspense } from 'react'
+import RequireAuth from './components/RequireAuth.jsx'
+import NotFound from './pages/NotFound.jsx'
+import Tasks from './pages/Tasks.jsx'
 
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage.jsx'))
 const Contact = lazy(() => import('./pages/Contact.jsx'))
-import NotFound from './pages/NotFound.jsx'
-import Tasks from './pages/Tasks.jsx'
+const Login = lazy(() => import('./pages/Login.jsx'))
 
 function PageLoadingFallback() {
   return (
@@ -37,7 +38,15 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/tasks"
+              element={
+                <RequireAuth>
+                  <Tasks />
+                </RequireAuth>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

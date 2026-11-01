@@ -1,4 +1,6 @@
-import { Link, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { isLoggedIn, logout } from '../api/auth.js'
 
 const ROUTES = [
   { path: '/', label: 'Home' },
@@ -9,6 +11,28 @@ const ROUTES = [
 
 function NavBar({ name, theme, onToggleTheme }) {
   const location = useLocation()
+  const navigate = useNavigate()
+  const [authed, setAuthed] = useState(() => isLoggedIn())
+
+  useEffect(() => {
+    const syncAuth = () => setAuthed(isLoggedIn())
+    window.addEventListener('auth-change', syncAuth)
+    window.addEventListener('storage', syncAuth)
+    return () => {
+      window.removeEventListener('auth-change', syncAuth)
+      window.removeEventListener('storage', syncAuth)
+    }
+  }, [])
+
+  useEffect(() => {
+    setAuthed(isLoggedIn())
+  }, [location.pathname])
+
+  const handleLogout = () => {
+    logout()
+    setAuthed(false)
+    navigate('/login')
+  }
 
   return (
     <header>
@@ -23,6 +47,18 @@ function NavBar({ name, theme, onToggleTheme }) {
             {route.label}
           </Link>
         ))}
+        {authed ? (
+          <button type="button" className="tab auth-tab" onClick={handleLogout}>
+            Logout
+          </button>
+        ) : (
+          <Link
+            to="/login"
+            className={`tab auth-tab${location.pathname === '/login' ? ' active' : ''}`}
+          >
+            Login
+          </Link>
+        )}
         <a href="/resume.pdf" download className="tab resume-tab" title="Download Resume">
           Resume ↗
         </a>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getTasks, createTask, updateTask, deleteTask } from '../api/tasks.js'
 import Spinner from '../components/Spinner.jsx'
 import ErrorMessage from '../components/ErrorMessage.jsx'
@@ -6,6 +7,7 @@ import Toast from '../components/Toast.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 
 function Tasks() {
+  const navigate = useNavigate()
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -15,6 +17,14 @@ function Tasks() {
 
   const [toast, setToast] = useState({ message: '', type: 'success' })
   const [confirmId, setConfirmId] = useState(null)
+
+  const handleAuthError = (err) => {
+    if (err.message === 'Session expired, please log in again') {
+      navigate('/login')
+      return true
+    }
+    return false
+  }
 
   const showToast = (message, type = 'success') => {
     setToast({ message, type })
@@ -26,7 +36,10 @@ function Tasks() {
     setError(null)
     getTasks()
       .then((data) => setTasks(data))
-      .catch((err) => setError(err.message))
+      .catch((err) => {
+        if (handleAuthError(err)) return
+        setError(err.message)
+      })
       .finally(() => setLoading(false))
   }
 
@@ -56,6 +69,7 @@ function Tasks() {
       .catch((err) => {
         // Roll back the optimistic update since the write actually failed.
         setTasks((prev) => prev.filter((t) => t._id !== tempTask._id))
+        if (handleAuthError(err)) return
         showToast(`Failed to create task: ${err.message}`, 'error')
       })
       .finally(() => setCreating(false))
@@ -68,7 +82,10 @@ function Tasks() {
         setTasks((prev) => prev.map((t) => (t._id === savedTask._id ? savedTask : t)))
         showToast('Task updated', 'success')
       })
-      .catch((err) => showToast(`Failed to update task: ${err.message}`, 'error'))
+      .catch((err) => {
+        if (handleAuthError(err)) return
+        showToast(`Failed to update task: ${err.message}`, 'error')
+      })
   }
 
   const handleDeleteConfirmed = () => {
@@ -80,10 +97,14 @@ function Tasks() {
         setTasks((prev) => prev.filter((t) => t._id !== id))
         showToast('Task deleted', 'success')
       })
-      .catch((err) => showToast(`Failed to delete task: ${err.message}`, 'error'))
+      .catch((err) => {
+        if (handleAuthError(err)) return
+        showToast(`Failed to delete task: ${err.message}`, 'error')
+      })
   }
 
-  return (<section id="tasks-page" className="is-visible">
+  return (
+    <section id="tasks-page" className="is-visible">
       <div className="section-head">
         <span className="mark">05</span>
         <h2>Tasks</h2>
